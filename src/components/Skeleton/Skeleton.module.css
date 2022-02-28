@@ -1,0 +1,13 @@
+.skeleton-square {
+  @apply animate-pulse bg-slate-200 dark:bg-slate-400 rounded-md;
+}
+
+.skeleton-circle {
+  @apply animate-pulse bg-slate-200 dark:bg-slate-400 rounded-full;
+}
+
+.skeleton-triagle {
+  background: linear-gradient(to bottom right, #fff 0%, #fff 50%, #94a3b8 50%, #94a3b8 100%);
+  transform: rotate(225deg);
+  @apply animate-pulse rotate-[225deg] bg-slate-200 dark:bg-slate-400;
+}

@@ -1,0 +1,125 @@
+####################################################
+###### Author: Risqi Romadhoni #####################
+###### Email: risqir57@gmail.com ###################
+####################################################
+name: CI CD Deploy
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - feature/*
+      - chore/*
+      - hotfix/*
+      - release/*
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Deploy to prod manually'
+        required: true
+        default: 'deploy-prod'
+
+jobs:
+  init:
+    name: 🍺 Init app on github actions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+
+    steps:
+      - name: ☕️ Copy repository
+        uses: actions/checkout@v2
+
+      - name: 🦚 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🎉 Init with node
+        run: echo "Hello init project here"
+
+  test:
+    name: 🍺 Testing app on github actions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+    needs: init
+
+    steps:
+      - name: ☕️ Copy repository
+        uses: actions/checkout@v2
+
+      - name: 🦚 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🎉 Test with node
+        run: echo "Hello Test Code"
+
+  deploy-sit:
+    name: 🍺 Deploy app SIT
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+    needs: [init, test]
+
+    steps:
+      - name: ☕️ Copy repository
+        uses: actions/checkout@v2
+
+      - name: 🦚 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🎉 Echo with node on sit
+        run: echo "Hello Sit"
+
+  deploy-staging:
+    name: 🍺 Deploy app Staging
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+    needs: [init, test]
+
+    steps:
+      - name: ☕️ Copy repository
+        uses: actions/checkout@v2
+
+      - name: 🦚 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🎉 Echo with node on sit
+        run: echo "Hello staging"
+
+  deploy-prod:
+    name: 🍺 Deploy app Prod
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.job == 'build-prod'}}
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+    needs: [init, test]
+
+    steps:
+      - name: ☕️ Copy repository
+        uses: actions/checkout@v2
+
+      - name: 🦚 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🎉 Echo with node on sit
+        run: echo "Hello Sit"

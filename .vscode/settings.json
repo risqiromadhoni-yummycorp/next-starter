@@ -1,0 +1,10 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "prettier.tabWidth": 2,
+  "stylelint.validate": ["css"],
+  "css.validate": true
+}
